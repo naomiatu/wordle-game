@@ -114,3 +114,61 @@ hr{
 .key.absent {
     background-color: #3a3a3c;
 }
+
+
+ /* Shake animation for invalid words */
+   @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
+
+ .shake {
+           animation: shake 0.5s;
+        }
+
+ /* Pop animation when typing */
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .pop {
+            animation: pop 0.1s;
+        }
+
+/* Flip animation when revealing tiles */
+        @keyframes flip {
+            0% {
+                transform: rotateX(0);
+            }
+            50% {
+                transform: rotateX(-90deg);
+            }
+            100% {
+                transform: rotateX(0);
+            }
+        }
+
+        .flip {
+            animation: flip 0.6s;
+        }
+        
+/* Bounce animation for winning */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            25% { transform: translateY(-20px); }
+            50% { transform: translateY(0); }
+            75% { transform: translateY(-10px); }
+        }
+
+        .bounce {
+            animation: bounce 0.6s;
+        }
+
+        .message {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #818384;
+        }

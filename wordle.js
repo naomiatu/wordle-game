@@ -51,6 +51,9 @@ function initialise(){
                 let currTile = document.getElementById(row.toString() + '-' + col.toString());
                 if(currTile.innerText == ""){
                     currTile.innerText = e.key.toUpperCase();
+                    // POP EFFECT when typing
+                    currTile.classList.add('pop');
+                    setTimeout(() => currTile.classList.remove('pop'), 100);
                     col += 1;
                 }
             }
@@ -73,7 +76,20 @@ function initialise(){
             
             // checks the guess is in the word list
             if(!VALID_GUESSES.includes(guess.toLowerCase())){
-                alert("Not in word list!");
+                // SHAKE EFFECT for invalid word
+                for(let c = 0; c < width; c++){
+                    let tile = document.getElementById(row.toString() + '-' + c.toString());
+                    tile.classList.add('shake');
+                }
+                
+                // Remove shake class after animation completes
+                setTimeout(() => {
+                    for(let c = 0; c < width; c++){
+                        let tile = document.getElementById(row.toString() + '-' + c.toString());
+                        tile.classList.remove('shake');
+                    }
+                }, 500); // matches animation duration
+                
                 return; // don't proceed if invalid word
             }
             
@@ -83,11 +99,12 @@ function initialise(){
 
             if(!gameOver && row == height){
                 gameOver = true;
-                document.getElementById("answer").innerText = secretWord;
+                document.getElementById("answer").innerText = "Game Over! The answer was " + secretWord;
             }
         }
     });
-            // add keyboard event listeners
+    
+    // add keyboard event listeners
     document.querySelectorAll('.key').forEach(key => {
         key.addEventListener('click', () => {
             if(gameOver) return;
@@ -101,9 +118,22 @@ function initialise(){
                     for(let c = 0; c < width; c++){
                         guess += document.getElementById(row.toString() + '-' + c.toString()).innerText;
                     }
-                    
+
+                    // checks the guess is in the word list
                     if(!VALID_GUESSES.includes(guess.toLowerCase())){
-                        alert("Not in word list!");
+                        // SHAKE EFFECT for invalid word
+                        for(let c = 0; c < width; c++){
+                            let tile = document.getElementById(row.toString() + '-' + c.toString());
+                            tile.classList.add('shake');
+                        }
+                        
+                        // Remove shake class after animation completes
+                        setTimeout(() => {
+                            for(let c = 0; c < width; c++){
+                                let tile = document.getElementById(row.toString() + '-' + c.toString());
+                                tile.classList.remove('shake');
+                            }
+                        }, 500);
                         return;
                     }
                     
@@ -113,7 +143,7 @@ function initialise(){
 
                     if(!gameOver && row == height){
                         gameOver = true;
-                        document.getElementById("answer").innerText = secretWord;
+                        document.getElementById("answer").innerText = "Game Over! The answer was " + secretWord;
                     }
                 }
             }
@@ -131,6 +161,9 @@ function initialise(){
                     let currTile = document.getElementById(row.toString() + '-' + col.toString());
                     if(currTile.innerText == ""){
                         currTile.innerText = letter;
+                        // POP EFFECT when typing
+                        currTile.classList.add('pop');
+                        setTimeout(() => currTile.classList.remove('pop'), 100);
                         col += 1;
                     }
                 }
@@ -181,17 +214,42 @@ function update(){
         }
     }
     
-    // apply the styling to tiles and keyboard
     for(let c = 0; c < width; c++){
         let currTile = document.getElementById(row.toString() + '-' + c.toString());
         let letter = currTile.innerText;
-        currTile.classList.add(guessStatus[c]);
+        
+        // Stagger the flip animation for each tile
+        setTimeout(() => {
+            currTile.classList.add('flip');
+            
+            // Add color class halfway through the flip
+            setTimeout(() => {
+                currTile.classList.add(guessStatus[c]);
+                currTile.classList.remove('flip');
+            }, 300); // halfway through the 0.6s flip animation
+            
+        }, c * 150); // delay each tile by 150ms
+        
         updateKeyboard(letter, guessStatus[c]);
     }
 
+    // if won, add bounce animation
     if(correct == width){
         gameOver = true;
-        document.getElementById("answer").innerText = "The answer was "+secretWord;
+        
+        // Wait for flip animations to finish, then bounce
+        setTimeout(() => {
+            for(let c = 0; c < width; c++){
+                let tile = document.getElementById(row.toString() + '-' + c.toString());
+                
+                // Stagger the bounce animation
+                setTimeout(() => {
+                    tile.classList.add('bounce');
+                    setTimeout(() => tile.classList.remove('bounce'), 600);
+                }, c * 100);
+            }
+            document.getElementById("answer").innerText = "🎉 You Won! The answer was " + secretWord;
+        }, 1000); // wait for flips to complete
     }
 }
 
