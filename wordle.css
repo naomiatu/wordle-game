@@ -195,7 +195,7 @@ hr{
         font-size: 28px;
     }
 }
-* Controls Section */
+/* Controls Section */
 #controls {
     display: flex;
     justify-content: center;
