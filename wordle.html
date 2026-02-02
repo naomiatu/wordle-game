@@ -4,22 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wordle</title>
-    
+    <link rel="stylesheet" href="wordle.css">
 </head>
 <body>
-
-    <link rel="stylesheet" href="wordle.css">
-    <script src="wordle.js"></script>
-    <h1 id="title">WORDLE</h1>
-    <hr>
-    <br>
-    <div id="board">
-
-    </div> 
-    <br>
-    <h1 id="answer">
-
+    <div id="title">WORDLE</div>
+    
+    <!-- Game Controls -->
+    <div id="controls">
+        <button id="hard-mode-btn" onclick="toggleHardMode()">Hard Mode: OFF</button>
+        <button id="timer-btn" onclick="toggleTimer()">Timer: OFF</button>
+        <button id="dark-mode-btn" onclick="toggleDarkMode(); this.blur()">🌙 Dark Mode</button>
+        <button id="challenge-btn" onclick="createChallenge()">🎯 Challenge Friend</button>
     </div>
+    
+    <!-- Challenge Info -->
+    <div id="challenge-info"></div>
+    
+    <!-- Timer Display -->
+    <div id="timer-display" style="display: none;">⏱️ 3:00</div>
+    
+    <hr>
+    
+    <div id="board"></div>
+    <div id="answer"></div>
+    
     <div id="keyboard">
         <div class="keyboard-row">
             <button class="key">Q</button>
@@ -56,5 +64,6 @@
             <button class="key wide">⌫</button>
         </div>
     </div>
+    <script src="wordle.js"></script>
 </body>
 </html>

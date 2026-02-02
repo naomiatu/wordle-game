@@ -172,3 +172,114 @@ hr{
             font-size: 14px;
             color: #818384;
         }
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    #controls {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    #controls button {
+        width: 200px;
+    }
+    
+    #board {
+        width: 90%;
+        max-width: 350px;
+    }
+    
+    .tile {
+        width: 50px;
+        height: 50px;
+        font-size: 28px;
+    }
+}
+* Controls Section */
+#controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 15px 0;
+    flex-wrap: wrap;
+}
+
+#controls button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #818384;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+#controls button:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+#controls button:active {
+    transform: scale(0.95);
+}
+
+/* Challenge Info */
+#challenge-info {
+    color: #6AAA64;
+    font-weight: bold;
+    font-size: 16px;
+    margin: 10px 0;
+    min-height: 20px;
+}
+
+/* Timer Display */
+#timer-display {
+    font-size: 28px;
+    font-weight: bold;
+    color: #C9B458;
+    margin: 10px 0;
+    font-family: 'Courier New', monospace;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+body.dark-mode #timer-display {
+    text-shadow: 0 2px 4px rgba(255,255,255,0.1);
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background-color: #121213;
+    color: #ffffff;
+}
+
+body.dark-mode #title {
+    color: #ffffff;
+    border-bottom-color: #3a3a3c;
+}
+
+body.dark-mode hr {
+    border-color: #3a3a3c;
+}
+
+body.dark-mode .tile {
+    border-color: #3a3a3c;
+    color: #ffffff;
+}
+
+body.dark-mode .tile:not(.correct):not(.present):not(.absent) {
+    background-color: #121213;
+}
+
+body.dark-mode #answer {
+    color: #ffffff;
+}
+
+body.dark-mode .message {
+    color: #d7dadc;
+}
+
+body.dark-mode #challenge-info {
+    color: #6AAA64;
+}
