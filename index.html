@@ -8,7 +8,30 @@
 </head>
 <body>
     <div id="title">WORDLE</div>
+    <div id="help-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeHelp()">&times;</span>
+            <h2>How To Play</h2>
+            <p>Guess the word in 6 tries.</p>
+            <hr>
+            <p><strong>Hard Mode:</strong> Any revealed hints must be used in subsequent guesses!</p>
+            <ul>
+                <li>Green letters must stay in the same spot.</li>
+                <li>Yellow letters must be included somewhere in your next guess.</li>
+            </ul>
+            <p><strong>Timer:</strong> You have two minutes to finish the entire puzzle!</p>
+            <button class="start-game-btn" onclick="closeHelp()">GIVE ME THE LETTERS</button>
+        </div>
+    </div>
+
+    <div id="stats-bar" >
+        Wins: <span id="wins-count">0</span> | Losses: <span id="losses-count">0</span>
+    </div>
     
+    <div id="controls">
+        <button id="new-game-btn" onclick="resetGame()">🔄 New Game</button>
+        <button onclick="toggleHardMode()">Hard Mode: OFF</button>
+        </div>
     <!-- Game Controls -->
     <div id="controls">
         <button id="hard-mode-btn" onclick="toggleHardMode()">Hard Mode: OFF</button>
@@ -21,7 +44,7 @@
     <div id="challenge-info"></div>
     
     <!-- Timer Display -->
-    <div id="timer-display" style="display: none;">⏱️ 3:00</div>
+    <div id="timer-display">⏱️ 2:00</div>
     
     <hr>
     
