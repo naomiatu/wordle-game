@@ -49,9 +49,6 @@ fetch('wordle_words.json')
         secretWord = getRandomWord();
     }
     
-    console.log("Answer words loaded:", ANSWER_WORDS.length);
-    console.log("Valid guesses loaded:", VALID_GUESSES.length);
-    console.log("Secret word:", secretWord);
     initialise(); // starts game after words load
   });
 
@@ -232,6 +229,10 @@ function initialise(){
 }
 
 function setupEventListeners() {
+    // Check if listeners are already attached to avoid duplicates on reset
+    if (window.listenersAttached) return;
+    window.listenersAttached = true;
+
     document.addEventListener("keyup", (e) => {
         if(gameOver) return;
 
@@ -402,15 +403,44 @@ function updateKeyboard(letter, status){
 }
 
 function resetGame() {
-    row = 0; col = 0; gameOver = false;
+    // 1. Reset Game Variables
+    row = 0; 
+    col = 0; 
+    gameOver = false;
     timeRemaining = timeLimit;
+    
+    // 2. Clear Timer
     if (timerInterval) clearInterval(timerInterval);
     timerInterval = null;
+    
+    // 3. Clear Hard Mode tracking
     revealedCorrect = {};
     revealedPresent = new Set();
+    
+    // 4. GENERATE NEW RANDOM WORD
     secretWord = getRandomWord();
+    console.log("New Secret Word:", secretWord);
+    
+    // 5. Clear UI Messages
     document.getElementById("answer").innerText = "";
     document.getElementById("timer-display").style.color = "";
-    initialise();
-    document.querySelectorAll('.key').forEach(k => k.classList.remove("correct", "present", "absent"));
+    updateTimerDisplay();
+    
+    // 6. Reset Keyboard Colors
+    document.querySelectorAll('.key').forEach(k => {
+        k.classList.remove("correct", "present", "absent");
+    });
+
+    // 7. Re-create the board tiles
+    const board = document.getElementById("board");
+    board.innerHTML = ""; 
+    for(let r = 0; r < height; r++){
+        for(let c = 0; c < width; c++){
+            let tile = document.createElement("span");
+            tile.id = r.toString() + "-" + c.toString();
+            tile.classList.add("tile");
+            tile.innerText = "";
+            board.appendChild(tile); 
+        }
+    }
 }
