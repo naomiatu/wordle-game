@@ -59,6 +59,7 @@ function getRandomWord() {
 
 // Toggle hard mode
 function toggleHardMode() {
+    document.activeElement.blur(); // FIX: Prevents Enter key from re-triggering button
     if(row > 0) {
         alert("Cannot change hard mode during game!");
         return;
@@ -71,6 +72,7 @@ function toggleHardMode() {
 
 // Toggle timer mode
 function toggleTimer() {
+    document.activeElement.blur(); // FIX: Prevents Enter key from re-triggering button
     if(row > 0) {
         alert("Cannot change timer mode during game!");
         return;
@@ -138,7 +140,7 @@ function updateTimerDisplay() {
 // Toggle dark mode
 function toggleDarkMode() {
     document.body.classList.toggle('dark-mode');
-    document.activeElement.blur(); // Fixes the Enter key refocus bug
+    document.activeElement.blur(); // FIX: Prevents Enter key from re-triggering button
     const isDark = document.body.classList.contains('dark-mode');
     localStorage.setItem('darkMode', isDark);
     
@@ -173,6 +175,7 @@ function validateHardMode(guess) {
 
 // creates challenge link
 function createChallenge() {
+    document.activeElement.blur();
     const customWord = prompt("Enter a 5-letter word for your friend:");
     if(!customWord || customWord.length !== 5) {
         alert("Please enter exactly 5 letters!");
@@ -229,7 +232,6 @@ function initialise(){
 }
 
 function setupEventListeners() {
-    // Check if listeners are already attached to avoid duplicates on reset
     if (window.listenersAttached) return;
     window.listenersAttached = true;
 
@@ -403,35 +405,21 @@ function updateKeyboard(letter, status){
 }
 
 function resetGame() {
-    // 1. Reset Game Variables
+    document.activeElement.blur(); 
     row = 0; 
     col = 0; 
     gameOver = false;
     timeRemaining = timeLimit;
-    
-    // 2. Clear Timer
     if (timerInterval) clearInterval(timerInterval);
     timerInterval = null;
-    
-    // 3. Clear Hard Mode tracking
     revealedCorrect = {};
     revealedPresent = new Set();
-    
-    // 4. GENERATE NEW RANDOM WORD
     secretWord = getRandomWord();
     console.log("New Secret Word:", secretWord);
-    
-    // 5. Clear UI Messages
     document.getElementById("answer").innerText = "";
     document.getElementById("timer-display").style.color = "";
     updateTimerDisplay();
     
-    // 6. Reset Keyboard Colors
-    document.querySelectorAll('.key').forEach(k => {
-        k.classList.remove("correct", "present", "absent");
-    });
-
-    // 7. Re-create the board tiles
     const board = document.getElementById("board");
     board.innerHTML = ""; 
     for(let r = 0; r < height; r++){
@@ -443,4 +431,5 @@ function resetGame() {
             board.appendChild(tile); 
         }
     }
+    document.querySelectorAll('.key').forEach(k => k.classList.remove("correct", "present", "absent"));
 }
