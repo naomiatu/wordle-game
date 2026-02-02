@@ -7,7 +7,7 @@ var col = 0; //current letter for that attempt
 var gameOver = false;
 var hardMode = false; // hard mode toggle
 var timerEnabled = false; // timer mode toggle
-var timeLimit = 180; // 3 minutes in seconds
+var timeLimit = 90; // 3 minutes in seconds
 var timeRemaining = timeLimit;
 var timerInterval = null;
 
